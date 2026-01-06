@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
-
-class ProductListController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render("home/Index",[
-            'products'=> Product::with('brand','categorie')->orderBy('id','desc')->paginate(10),
+        $cart = auth()->user()->carts()->with(['product', 'user'])->get();
+
+        return Inertia::render('cart/Index', [
+            'carts' => $cart,
         ]);
+
     }
 
     /**
@@ -33,7 +34,24 @@ class ProductListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $user = auth()->user();
+        $isExist = $user->carts()->where('product_id', $request->product_id)->first();
+        if ($isExist) {
+            $isExist->increment('quantity', $request->quantity);
+        }else{
+        Cart::create([
+            'user_id'=> auth()->user()->id,
+            'product_id'=> $request->product_id,
+            'quantity'=> $request->quantity
+        ]);
+    }
+
+        return back()->with('success', 'Product added to cart');
     }
 
     /**

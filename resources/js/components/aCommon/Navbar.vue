@@ -1,10 +1,11 @@
 <script setup>
+import { Link } from '@inertiajs/vue3';
 import { ref } from 'vue'
 
 const isOpen = ref(false)
 
-// dummy cart count (later Pinia / backend)
 const cartCount = ref(2)
+
 </script>
 
 <template>
@@ -63,9 +64,9 @@ const cartCount = ref(2)
 
       <a href="/" class="block px-2 py-2 hover:bg-gray-700 rounded">Home</a>
       <a href="/products" class="block px-2 py-2 hover:bg-gray-700 rounded">Shop</a>
-      <a href="/cart" class="block px-2 py-2 hover:bg-gray-700 rounded">
+      <Link href="/cart" class="block px-2 py-2 hover:bg-gray-700 rounded">
         Cart ({{ cartCount }})
-      </a>
+      </Link>
       <a href="/login" class="block px-2 py-2 hover:bg-gray-700 rounded">
         Login
       </a>
