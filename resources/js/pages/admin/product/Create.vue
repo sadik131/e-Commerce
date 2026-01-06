@@ -39,7 +39,11 @@ const breadcrumbs = [
 ];
 
 const handleSubmit = () => {
-    form.post('/product')
+    if(props.product){
+        form.put(`/product/${props.product.id}`)
+    }else{
+        form.post('/product')
+    }
 }
 </script>
 
@@ -91,7 +95,6 @@ const handleSubmit = () => {
                         class="w-full rounded-md border px-4 py-2 border-gray-300 focus:border-purple-500 focus:ring-purple-500">
                         <option value="">Select Brand</option>
                         <option v-for="brand in brands" :value="brand.id" :key="brand.id">{{brand.name}}</option>
-                        
                     </select>
                 </div>
                 <!-- Categorys -->

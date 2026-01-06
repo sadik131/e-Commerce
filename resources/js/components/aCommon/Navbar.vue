@@ -1,10 +1,16 @@
 <script setup>
+import { usePage } from '@inertiajs/vue3'
 import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+
+const page = usePage()
+
+const cartCount = computed(() => {
+  return page.props.cart.count
+})
 
 const isOpen = ref(false)
 
-const cartCount = ref(2)
 
 </script>
 
@@ -32,6 +38,9 @@ const cartCount = ref(2)
               {{ cartCount }}
             </span>
           </a>
+          <Link href="/dashboard" class="block px-2 py-2">
+        Dashboard
+      </Link>
 
           <!-- Auth -->
           <a href="/login" class="hover:text-blue-400">Login</a>
@@ -66,6 +75,9 @@ const cartCount = ref(2)
       <a href="/products" class="block px-2 py-2 hover:bg-gray-700 rounded">Shop</a>
       <Link href="/cart" class="block px-2 py-2 hover:bg-gray-700 rounded">
         Cart ({{ cartCount }})
+      </Link>
+      <Link href="/dashbord" class="block px-2 py-2 hover:bg-gray-700 rounded">
+        Dashbord
       </Link>
       <a href="/login" class="block px-2 py-2 hover:bg-gray-700 rounded">
         Login

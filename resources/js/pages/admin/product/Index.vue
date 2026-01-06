@@ -2,7 +2,7 @@
 import AdminLayout from '@/components/aCommon/AdminLayout.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 
 const breadcrumbs = [
     {
@@ -14,6 +14,10 @@ const breadcrumbs = [
 defineProps({
     products: Object,
 })
+
+const handleDelete=(id)=>{
+    router.delete(`/product/${id}`)
+}
 </script>
 
 <template>
@@ -51,10 +55,9 @@ defineProps({
 
                         <tr class="text-sm text-gray-700">
                             <td class="px-6 py-4">{{ product.id }}</td>
-
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="h-10 w-10 bg-gray-200 rounded"></div>
+                                        <img class="h-10 w-14 rounded" :src="product.thumb" alt="" srcset="">
                                     <div>
                                         <p class="font-medium">{{ product.name }}</p>
                                         <p class="text-xs text-gray-500"> {{ product.brand.name }}
@@ -84,7 +87,7 @@ defineProps({
                                         class="px-3 py-1 text-xs rounded bg-yellow-100 text-yellow-700 hover:bg-yellow-200">
                                         Edit
                                     </Link>
-                                    <button class="px-3 py-1 text-xs rounded bg-red-100 text-red-700 hover:bg-red-200">
+                                    <button @click="handleDelete(product.id)" class="px-3 py-1 text-xs rounded bg-red-100 text-red-700 hover:bg-red-200">
                                         Delete
                                     </button>
                                 </div>

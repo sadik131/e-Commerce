@@ -43,13 +43,13 @@ class CartController extends Controller
         $isExist = $user->carts()->where('product_id', $request->product_id)->first();
         if ($isExist) {
             $isExist->increment('quantity', $request->quantity);
-        }else{
-        Cart::create([
-            'user_id'=> auth()->user()->id,
-            'product_id'=> $request->product_id,
-            'quantity'=> $request->quantity
-        ]);
-    }
+        } else {
+            Cart::create([
+                'user_id' => auth()->user()->id,
+                'product_id' => $request->product_id,
+                'quantity' => $request->quantity,
+            ]);
+        }
 
         return back()->with('success', 'Product added to cart');
     }
@@ -65,17 +65,23 @@ class CartController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+    public function edit(string $id) {}
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $cart = Cart::findOrFail( $id );
+        $validation = $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $cart->update($validation);
+    
+
+    return redirect()->back();
+
     }
 
     /**
@@ -83,6 +89,8 @@ class CartController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       $cart = Cart::findOrFail( $id );
+       $cart->delete();
+       return redirect()->back();
     }
 }

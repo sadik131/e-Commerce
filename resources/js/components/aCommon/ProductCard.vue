@@ -20,8 +20,8 @@ const addToCart = (product) => {
   <div class="w-full bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
     <!-- Product Image -->
     <div class="w-full bg-gray-100 flex items-center justify-center">
-      <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e" :alt="product.name"
-        class="h-full object-cover" />
+      <img :src="product.thumb" :alt="product.name"
+        class="h-56 object-cover" />
     </div>
 
     <!-- Product Info -->

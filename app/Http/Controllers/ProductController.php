@@ -67,10 +67,12 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with(['brand','categorie'])->findOrFail($id);
+
         return Inertia::render('admin/product/Create', [
             'product' => $product,
-            
+            'brands' => Brand::all(),
+            'categorys'=> Category::all()
         ]);
 
     }
